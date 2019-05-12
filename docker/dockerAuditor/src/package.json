@@ -1,0 +1,16 @@
+{
+  "name": "nodetestjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tcpClient.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dgram": "^1.0.1",
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
+  }
+}
