@@ -1,47 +1,34 @@
-var protocol = require('./protocol');
+var fs = require('fs');
+var sonInstrument = JSON.parse(fs.readFileSync('sonInstrument.json', 'utf8'));
+const uuidv1 = require('uuid/v1');
 
-var dgram = require('dgram');
 
-var uuid = require('uuid');
+// We use a standard Node.js module to work with UDP
+const dgram = require('dgram');
+// Let's create a datagram socket. We will use it to send our UDP datagrams
+const s = dgram.createSocket('udp4');
+// Create a measure object and serialize it to JSON
+const measure = new Object();
 
-var moment = require('moment');
+argInstrument = process.argv[2];
 
-var socket = dgram.createSocket('udp4');
+measure.uuid = uuidv1();
+measure.sound = sonInstrument[argInstrument];
 
-//sounds array
-const SOUNDS = {
-    piano: "ti-ta-ti",
-    trumpet: "pouet",
-    flute: "trulu",
-    violin: "gzi-gzi",
-    drum: "boum-boum"
-};
 
-var instrument = process.argv[2];
+console.log(measure.uuid);
+console.log(measure.sound);
 
-if(instrument === undefined){
-    console.log("Error : instrument undefined.\nplease choose between : \n -> piano\n -> trumpet\n -> flute\n -> violin\n -> drum");
-    process.exit(1);
-}
 
-console.log("Messages will be sent to : " + protocol.MULTICAST_ADDRESS + ":" + protocol.PORT);
+const payload = JSON.stringify(measure);
 
-setInterval(sendMessage, 1000);
+// Send the payload via UDP (multicast)
+message = new Buffer.from(payload);
 
-var json = {
-    uuid: uuid(),
-    instrument: process.argv[2]
-};
+    setInterval(function(){
+        s.send(message, 0, message.length, 1234, "224.0.0.0",function(err, bytes) {
+        console.log("Sending payload: " + payload + " via port 1234" );
+    });},1000);
 
-//send the message to the broadcast address
-function sendMessage() {
-    json.activeSince = moment();
 
-    var message = JSON.stringify(json);
-
-    console.log(SOUNDS[json.instrument] + ' message : ' + message);
-
-    socket.send(message, 0, message.length, protocol.PORT, protocol.MULTICAST_ADDRESS, function (err, bytes) {
-        if (err) throw err;
-    });
-}
+    
