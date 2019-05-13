@@ -1,16 +1,15 @@
 {
-  "name": "musician",
+  "name": "music-musician",
   "version": "1.0.0",
   "description": "",
-  "main": "tcpClient.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Corentin Basler",
   "license": "ISC",
   "dependencies": {
-    "dgram": "^1.0.1",
-    "moment": "^2.24.0",
-    "uuid": "^3.3.2"
+    "moment": "^2.22.1",
+    "uuid": "3.2.1"
   }
 }
